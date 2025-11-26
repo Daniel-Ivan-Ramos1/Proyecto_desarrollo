@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.AddProductoPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="➕ Agregar Producto">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <Label Text="Agregar Nueva Computadora" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <!-- Formulario -->
+            <Frame BackgroundColor="#F8F9FA" Padding="15" CornerRadius="10">
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="Nombre del Producto:" FontAttributes="Bold"/>
+                    <Entry x:Name="NombreEntry" Placeholder="Ej: Laptop Gamer Pro"/>
+
+                    <Label Text="Descripción:" FontAttributes="Bold"/>
+                    <Editor x:Name="DescripcionEditor" 
+                           HeightRequest="60" 
+                           Placeholder="Descripción del producto..."/>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Precio:" FontAttributes="Bold"/>
+                            <Entry x:Name="PrecioEntry" 
+                                   Placeholder="0.00" 
+                                   Keyboard="Numeric"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Stock:" FontAttributes="Bold"/>
+                            <Entry x:Name="StockEntry" 
+                                   Placeholder="0" 
+                                   Keyboard="Numeric"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="Procesador:" FontAttributes="Bold"/>
+                    <Entry x:Name="ProcesadorEntry" Placeholder="Ej: Intel Core i7"/>
+
+                    <Label Text="RAM:" FontAttributes="Bold"/>
+                    <Entry x:Name="RAMEntry" Placeholder="Ej: 16GB DDR5"/>
+
+                    <Label Text="Almacenamiento:" FontAttributes="Bold"/>
+                    <Entry x:Name="AlmacenamientoEntry" Placeholder="Ej: 1TB NVMe SSD"/>
+
+                    <Label Text="Tarjeta de Video:" FontAttributes="Bold"/>
+                    <Entry x:Name="TarjetaVideoEntry" Placeholder="Ej: NVIDIA RTX 4060"/>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botones -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="❌ Cancelar" 
+                        BackgroundColor="#FF6B6B"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Clicked="OnCancelarClicked"/>
+
+                <Button Text="✅ Guardar" 
+                        BackgroundColor="#2E86AB"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Grid.Column="1"
+                        Clicked="OnGuardarClicked"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

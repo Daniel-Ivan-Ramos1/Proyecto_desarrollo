@@ -6,7 +6,9 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        // Usar NavigationPage para habilitar la navegación
+        // Cargar el tema guardado al iniciar
+        Services.ThemeService.LoadSavedTheme();
+
         MainPage = new NavigationPage(new Views.ProductosPage());
     }
 }

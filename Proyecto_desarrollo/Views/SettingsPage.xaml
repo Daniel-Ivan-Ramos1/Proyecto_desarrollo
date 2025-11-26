@@ -18,13 +18,15 @@
                     <VerticalStackLayout Spacing="15">
                         <Label Text="🎨 Tema de Colores" FontAttributes="Bold"/>
 
-                        <Button Text="🔵 Tema Azul (Tech)" 
+                        <Button x:Name="TemaAzulButton"
+                                Text="🔵 Tema Azul (Tech)" 
                                 BackgroundColor="#2E86AB"
                                 TextColor="White"
                                 CornerRadius="10"
                                 Clicked="OnTemaAzulClicked"/>
 
-                        <Button Text="🌙 Tema Oscuro" 
+                        <Button x:Name="TemaOscuroButton"
+                                Text="🌙 Tema Oscuro" 
                                 BackgroundColor="#333333"
                                 TextColor="White"
                                 CornerRadius="10"
