@@ -1,0 +1,9 @@
+namespace Proyecto_desarrollo.Views;
+
+public partial class ProductosPage : ContentPage
+{
+    public ProductosPage()
+    {
+        InitializeComponent();
+    }
+}

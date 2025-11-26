@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.ProductosPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Proyecto_desarrollo.ViewModels"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <viewmodels:ProductosViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="20">
+
+                <!-- Header -->
+                <Label Text="💻 Nuestras Computadoras" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <!-- Lista de productos con Data Binding -->
+                <CollectionView ItemsSource="{Binding Productos}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#F0F8FF" 
+                                   Padding="15" 
+                                   CornerRadius="10"
+                                   Margin="0,0,0,10">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="{Binding Nombre}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="16"/>
+                                    <Label Text="{Binding Descripcion}" 
+                                           FontSize="14"/>
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}" 
+                                               TextColor="Green" 
+                                               FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Stock, StringFormat='Stock: {0}'}" 
+                                               HorizontalOptions="End"/>
+                                    </Grid>
+                                    <Button Text="Ver Detalles" 
+                                            BackgroundColor="#2E86AB"
+                                            TextColor="White"
+                                            CornerRadius="5"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="➕ Agregar Nuevo Producto" 
+                        BackgroundColor="#2E86AB"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Command="{Binding AgregarProductoCommand}"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

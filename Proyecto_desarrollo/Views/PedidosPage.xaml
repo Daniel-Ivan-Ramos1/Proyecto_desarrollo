@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.PedidosPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="📦 Pedidos">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="20">
+
+                <Label Text="Gestión de Pedidos" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <!-- Pedido de ejemplo -->
+                <Frame BackgroundColor="#FFF0F5" Padding="15" CornerRadius="10">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="📦 Pedido #001" FontAttributes="Bold" FontSize="16"/>
+                        <Label Text="👤 Cliente: Juan Pérez"/>
+                        <Label Text="💻 Producto: Laptop Gamer Pro"/>
+                        <Label Text="💰 Total: $1,299.99"/>
+                        <Label Text="📅 Fecha: 15/Nov/2024"/>
+                        <Label Text="🟡 Estado: Pendiente" TextColor="Orange"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Button Text="➕ Nuevo Pedido" 
+                        BackgroundColor="#2E86AB"
+                        TextColor="White"
+                        CornerRadius="10"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

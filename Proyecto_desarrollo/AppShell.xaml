@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="Proyecto_desarrollo.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Proyecto_desarrollo"
-    Title="Proyecto_desarrollo">
+<Shell x:Class="Proyecto_desarrollo.AppShell"
+      xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:views="clr-namespace:Proyecto_desarrollo.Views"
+      Title="TechStore"
+      FlyoutBehavior="Flyout">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Encabezado del menú lateral -->
+    <Shell.FlyoutHeader>
+        <Grid HeightRequest="180" BackgroundColor="#2E86AB">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="🖥️ TechStore" 
+                       FontSize="24" 
+                       TextColor="White" 
+                       FontAttributes="Bold"/>
+                <Label Text="Especialistas en Computadoras" 
+                       FontSize="14" 
+                       TextColor="White"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Opciones del menú de navegación -->
+    <FlyoutItem Title="🏠 Inicio" Icon="home.png">
+        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="💻 Productos" Icon="laptop.png">
+        <ShellContent Route="ProductosPage" ContentTemplate="{DataTemplate views:ProductosPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="👥 Clientes" Icon="people.png">
+        <ShellContent Route="ClientesPage" ContentTemplate="{DataTemplate views:ClientesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="📦 Pedidos" Icon="cart.png">
+        <ShellContent Route="PedidosPage" ContentTemplate="{DataTemplate views:PedidosPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="⚙️ Ajustes" Icon="settings.png">
+        <ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate views:SettingsPage}" />
+    </FlyoutItem>
 
 </Shell>

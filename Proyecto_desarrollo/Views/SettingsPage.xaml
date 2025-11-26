@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.SettingsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="⚙️ Ajustes">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Spacing="25" Padding="20">
+
+                <Label Text="Configuración" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <!-- Tema de colores -->
+                <Frame BackgroundColor="#F8F9FA" Padding="15" CornerRadius="10">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="🎨 Tema de Colores" FontAttributes="Bold"/>
+
+                        <Button Text="🔵 Tema Azul (Tech)" 
+                                BackgroundColor="#2E86AB"
+                                TextColor="White"
+                                CornerRadius="10"/>
+
+                        <Button Text="🌙 Tema Oscuro" 
+                                BackgroundColor="#333333"
+                                TextColor="White"
+                                CornerRadius="10"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Información de la app -->
+                <Frame BackgroundColor="#F8F9FA" Padding="15" CornerRadius="10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="ℹ️ Acerca de" FontAttributes="Bold"/>
+                        <Label Text="🖥️ TechStore v1.0"/>
+                        <Label Text="Tu tienda especializada en computadoras"/>
+                        <Label Text="Desarrollado con .NET MAUI"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

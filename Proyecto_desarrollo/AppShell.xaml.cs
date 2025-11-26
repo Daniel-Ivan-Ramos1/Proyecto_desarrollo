@@ -1,10 +1,9 @@
-﻿namespace Proyecto_desarrollo
+﻿namespace Proyecto_desarrollo;
+
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

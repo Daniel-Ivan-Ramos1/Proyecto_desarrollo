@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.ClientesPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="👥 Clientes">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="20">
+
+                <Label Text="Gestión de Clientes" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <!-- Cliente de ejemplo -->
+                <Frame BackgroundColor="#F0F8FF" Padding="15" CornerRadius="10">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="👤 Juan Pérez" FontAttributes="Bold" FontSize="16"/>
+                        <Label Text="📧 juan.perez@email.com"/>
+                        <Label Text="📞 555-123-4567"/>
+                        <Label Text="🏠 Av. Principal #123"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="#F0F8FF" Padding="15" CornerRadius="10">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="👤 María García" FontAttributes="Bold" FontSize="16"/>
+                        <Label Text="📧 maria.garcia@email.com"/>
+                        <Label Text="📞 555-987-6543"/>
+                        <Label Text="🏠 Calle Secundaria #456"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Button Text="➕ Agregar Nuevo Cliente" 
+                        BackgroundColor="#2E86AB"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Clicked="OnAgregarClienteClicked"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
