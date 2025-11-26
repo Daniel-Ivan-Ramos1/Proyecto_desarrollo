@@ -17,7 +17,6 @@ public partial class AddProductoPage : ContentPage
 
     private async void OnGuardarClicked(object sender, EventArgs e)
     {
-        // Validar campos
         if (string.IsNullOrWhiteSpace(NombreEntry.Text) ||
             string.IsNullOrWhiteSpace(DescripcionEditor.Text) ||
             string.IsNullOrWhiteSpace(PrecioEntry.Text))
@@ -26,14 +25,12 @@ public partial class AddProductoPage : ContentPage
             return;
         }
 
-        // Validar que el precio sea un número válido
         if (!decimal.TryParse(PrecioEntry.Text, out decimal precio))
         {
             await DisplayAlert("Error", "Por favor ingresa un precio válido", "OK");
             return;
         }
 
-        // Crear nuevo producto
         var nuevoProducto = new Producto
         {
             Nombre = NombreEntry.Text,
@@ -46,7 +43,6 @@ public partial class AddProductoPage : ContentPage
             TarjetaVideo = TarjetaVideoEntry.Text ?? string.Empty
         };
 
-        // Guardar en el API
         var apiService = new ApiService();
         var productoGuardado = await apiService.AddProductoAsync(nuevoProducto);
 
@@ -66,7 +62,6 @@ public partial class AddProductoPage : ContentPage
                 "OK");
         }
 
-        // Regresar a la página anterior
         await Navigation.PopAsync();
     }
 }

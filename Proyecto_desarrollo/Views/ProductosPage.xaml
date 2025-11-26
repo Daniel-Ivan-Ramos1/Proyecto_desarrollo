@@ -3,7 +3,8 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:Proyecto_desarrollo.ViewModels"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource BackgroundColor}">
 
     <ContentPage.BindingContext>
         <viewmodels:ProductosViewModel />
@@ -13,89 +14,90 @@
         <ScrollView>
             <VerticalStackLayout Spacing="20" Padding="20">
 
-                <!-- Header -->
                 <Label Text="💻 Nuestras Computadoras" 
                        FontSize="24" 
                        FontAttributes="Bold"
-                       HorizontalOptions="Center"/>
+                       HorizontalOptions="Center"
+                       TextColor="{DynamicResource TextColor}"/>
 
-                <!-- Lista de productos con Data Binding y Swipe Gestures -->
                 <CollectionView ItemsSource="{Binding Productos}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <SwipeView>
-                                <!-- Swipe izquierda para editar -->
-                                <SwipeView.LeftItems>
-                                    <SwipeItem Text="✏️ Editar" 
-                                              BackgroundColor="#2E86AB"
-                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=EditarProductoCommand}"
-                                              CommandParameter="{Binding .}"/>
-                                </SwipeView.LeftItems>
+                            <Frame Style="{DynamicResource CardFrame}"
+                                   Margin="0,0,0,10">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Text="{Binding Nombre}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="16"
+                                           TextColor="{DynamicResource TextColor}"/>
+                                    <Label Text="{Binding Descripcion}" 
+                                           FontSize="14"
+                                           TextColor="{DynamicResource TextColor}"/>
 
-                                <!-- Swipe derecha para eliminar -->
-                                <SwipeView.RightItems>
-                                    <SwipeItem Text="🗑️ Eliminar" 
-                                              BackgroundColor="#FF6B6B"
-                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=EliminarProductoCommand}"
-                                              CommandParameter="{Binding .}"/>
-                                </SwipeView.RightItems>
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}" 
+                                               TextColor="Green" 
+                                               FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Stock, StringFormat='Stock: {0}'}" 
+                                               HorizontalOptions="End"
+                                               TextColor="{DynamicResource TextColor}"/>
+                                    </Grid>
 
-                                <Frame BackgroundColor="#F0F8FF" 
-                                       Padding="15" 
-                                       CornerRadius="10"
-                                       Margin="0,0,0,10">
-                                    <VerticalStackLayout Spacing="8">
-                                        <Label Text="{Binding Nombre}" 
-                                               FontAttributes="Bold" 
-                                               FontSize="16"/>
-                                        <Label Text="{Binding Descripcion}" 
-                                               FontSize="14"/>
-                                        <Grid ColumnDefinitions="*,*">
-                                            <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}" 
-                                                   TextColor="Green" 
-                                                   FontAttributes="Bold"/>
-                                            <Label Grid.Column="1" 
-                                                   Text="{Binding Stock, StringFormat='Stock: {0}'}" 
-                                                   HorizontalOptions="End"/>
-                                        </Grid>
-                                        <Button Text="🔍 Ver Detalles" 
-                                                BackgroundColor="#2E86AB"
-                                                TextColor="White"
-                                                CornerRadius="5"
+                                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                                        <Button Text="🔍 Ver" 
+                                                Style="{DynamicResource PrimaryButton}"
+                                                FontSize="12"
+                                                Padding="10,8"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=VerDetallesCommand}"
                                                 CommandParameter="{Binding .}"/>
-                                    </VerticalStackLayout>
-                                </Frame>
-                            </SwipeView>
+
+                                        <Button Text="✏️ Editar" 
+                                                BackgroundColor="{DynamicResource SecondaryColor}"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Grid.Column="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=EditarProductoCommand}"
+                                                CommandParameter="{Binding .}"/>
+
+                                        <Button Text="🗑️ Eliminar" 
+                                                BackgroundColor="#FF6B6B"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Grid.Column="2"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=EliminarProductoCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
                 <Button Text="➕ Agregar Nuevo Producto" 
-                        BackgroundColor="#2E86AB"
-                        TextColor="White"
-                        CornerRadius="10"
+                        Style="{DynamicResource PrimaryButton}"
                         Command="{Binding AgregarProductoCommand}"/>
 
-                <!-- Navegación a otras páginas -->
                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                     <Button Text="👥 Clientes" 
-                            BackgroundColor="#A23B72"
+                            BackgroundColor="{DynamicResource SecondaryColor}"
                             TextColor="White"
                             CornerRadius="10"
                             Clicked="OnClientesClicked"/>
 
                     <Button Text="📦 Pedidos" 
-                            BackgroundColor="#F18F01"
+                            BackgroundColor="{DynamicResource AccentColor}"
                             TextColor="White"
                             CornerRadius="10"
                             Grid.Column="1"
                             Clicked="OnPedidosClicked"/>
 
                     <Button Text="⚙️ Ajustes" 
-                            BackgroundColor="#2E86AB"
-                            TextColor="White"
-                            CornerRadius="10"
+                            Style="{DynamicResource PrimaryButton}"
                             Grid.Column="2"
                             Clicked="OnSettingsClicked"/>
                 </Grid>

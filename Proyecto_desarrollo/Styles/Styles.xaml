@@ -2,7 +2,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Estilo para botones primarios -->
     <Style x:Key="PrimaryButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
         <Setter Property="TextColor" Value="White" />
@@ -11,7 +10,6 @@
         <Setter Property="Padding" Value="20,10" />
     </Style>
 
-    <!-- Estilo para frames -->
     <Style x:Key="CardFrame" TargetType="Frame">
         <Setter Property="BackgroundColor" Value="{DynamicResource CardColor}" />
         <Setter Property="Padding" Value="15" />
@@ -19,12 +17,34 @@
         <Setter Property="HasShadow" Value="True" />
     </Style>
 
-    <!-- Estilo para etiquetas de título -->
     <Style x:Key="TitleLabel" TargetType="Label">
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}" />
+    </Style>
+
+    <Style x:Key="ThemedEntry" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="{DynamicResource CardColor}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        <Setter Property="PlaceholderColor" Value="#808080" />
+    </Style>
+
+    <Style x:Key="ThemedEditor" TargetType="Editor">
+        <Setter Property="BackgroundColor" Value="{DynamicResource CardColor}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        <Setter Property="PlaceholderColor" Value="#808080" />
+    </Style>
+
+    <Style x:Key="CustomFontLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+
+    <Style x:Key="LargeTitle" TargetType="Label">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
 
 </ResourceDictionary>

@@ -6,6 +6,8 @@ public static class ThemeService
 {
     private const string ThemeKey = "CurrentTheme";
 
+    public static event Action<Theme> ThemeChanged;
+
     public enum Theme
     {
         Azul,
@@ -14,11 +16,13 @@ public static class ThemeService
 
     public static void ApplyTheme(Theme theme)
     {
-        // Guardar preferencia
         Preferences.Set(ThemeKey, theme.ToString());
 
-        // Aplicar colores inmediatamente
         ApplyThemeColors(theme);
+
+        ThemeChanged?.Invoke(theme);
+
+        ForceUIUpdate();
     }
 
     private static void ApplyThemeColors(Theme theme)
@@ -35,6 +39,38 @@ public static class ThemeService
             {
                 Application.Current.Resources.Add(color.Key, color.Value);
             }
+        }
+    }
+
+    private static void ForceUIUpdate()
+    {
+        if (Application.Current?.MainPage is not null)
+        {
+            var currentPage = Application.Current.MainPage;
+
+            UpdatePageAppearance(currentPage);
+        }
+    }
+
+    private static void UpdatePageAppearance(Page page)
+    {
+        try
+        {
+            if (page is ContentPage contentPage)
+            {
+                var bgColor = contentPage.BackgroundColor;
+                contentPage.BackgroundColor = Colors.Transparent;
+                contentPage.BackgroundColor = bgColor;
+            }
+
+            if (page is NavigationPage navPage && navPage.CurrentPage != null)
+            {
+                UpdatePageAppearance(navPage.CurrentPage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error actualizando apariencia: {ex.Message}");
         }
     }
 

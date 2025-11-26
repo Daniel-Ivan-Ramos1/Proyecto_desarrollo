@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.SplashScreen"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="{DynamicResource PrimaryColor}">
+
+    <Grid>
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+            <Image Source="dotnet_bot.png" 
+                   WidthRequest="120" 
+                   HeightRequest="120"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="🖥️ TechStore" 
+                   FontSize="32" 
+                   TextColor="White" 
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold"/>
+
+            <Label Text="Cargando aplicación..." 
+                   FontSize="16" 
+                   TextColor="White" 
+                   HorizontalOptions="Center"/>
+
+            <ActivityIndicator Color="White" 
+                             IsRunning="True"
+                             HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

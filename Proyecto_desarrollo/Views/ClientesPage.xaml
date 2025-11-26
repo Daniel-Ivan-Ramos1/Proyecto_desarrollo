@@ -2,41 +2,106 @@
 <ContentPage x:Class="Proyecto_desarrollo.Views.ClientesPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="👥 Clientes">
+             xmlns:viewmodels="clr-namespace:Proyecto_desarrollo.ViewModels"
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource BackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewmodels:ClientesViewModel />
+    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <ScrollView>
             <VerticalStackLayout Spacing="20" Padding="20">
 
-                <Label Text="Gestión de Clientes" 
+                <Label Text="👥 Nuestros Clientes" 
                        FontSize="24" 
                        FontAttributes="Bold"
-                       HorizontalOptions="Center"/>
+                       HorizontalOptions="Center"
+                       TextColor="{DynamicResource TextColor}"/>
 
-                <!-- Cliente de ejemplo -->
-                <Frame BackgroundColor="#F0F8FF" Padding="15" CornerRadius="10">
-                    <VerticalStackLayout Spacing="8">
-                        <Label Text="👤 Juan Pérez" FontAttributes="Bold" FontSize="16"/>
-                        <Label Text="📧 juan.perez@email.com"/>
-                        <Label Text="📞 555-123-4567"/>
-                        <Label Text="🏠 Av. Principal #123"/>
-                    </VerticalStackLayout>
-                </Frame>
+                <CollectionView ItemsSource="{Binding Clientes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{DynamicResource CardFrame}"
+                                   Margin="0,0,0,10">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Text="{Binding Nombre}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="16"
+                                           TextColor="{DynamicResource TextColor}"/>
 
-                <Frame BackgroundColor="#F0F8FF" Padding="15" CornerRadius="10">
-                    <VerticalStackLayout Spacing="8">
-                        <Label Text="👤 María García" FontAttributes="Bold" FontSize="16"/>
-                        <Label Text="📧 maria.garcia@email.com"/>
-                        <Label Text="📞 555-987-6543"/>
-                        <Label Text="🏠 Calle Secundaria #456"/>
-                    </VerticalStackLayout>
-                </Frame>
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding Email}" 
+                                               FontSize="14"
+                                               TextColor="{DynamicResource TextColor}"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Telefono}" 
+                                               HorizontalOptions="End"
+                                               TextColor="{DynamicResource TextColor}"/>
+                                    </Grid>
+
+                                    <Label Text="{Binding Direccion}" 
+                                           FontSize="12"
+                                           TextColor="{DynamicResource TextColor}"/>
+
+                                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                                        <Button Text="🔍 Ver" 
+                                                Style="{DynamicResource PrimaryButton}"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ClientesViewModel}}, Path=VerDetallesCommand}"
+                                                CommandParameter="{Binding .}"/>
+
+                                        <Button Text="✏️ Editar" 
+                                                BackgroundColor="{DynamicResource SecondaryColor}"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Grid.Column="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ClientesViewModel}}, Path=EditarClienteCommand}"
+                                                CommandParameter="{Binding .}"/>
+
+                                        <Button Text="🗑️ Eliminar" 
+                                                BackgroundColor="#FF6B6B"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Grid.Column="2"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ClientesViewModel}}, Path=EliminarClienteCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
                 <Button Text="➕ Agregar Nuevo Cliente" 
-                        BackgroundColor="#2E86AB"
-                        TextColor="White"
-                        CornerRadius="10"
-                        Clicked="OnAgregarClienteClicked"/>
+                        Style="{DynamicResource PrimaryButton}"
+                        Command="{Binding AgregarClienteCommand}"/>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Button Text="💻 Productos" 
+                            BackgroundColor="{DynamicResource SecondaryColor}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Clicked="OnProductosClicked"/>
+
+                    <Button Text="📦 Pedidos" 
+                            BackgroundColor="{DynamicResource AccentColor}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Grid.Column="1"
+                            Clicked="OnPedidosClicked"/>
+
+                    <Button Text="⚙️ Ajustes" 
+                            Style="{DynamicResource PrimaryButton}"
+                            Grid.Column="2"
+                            Clicked="OnSettingsClicked"/>
+                </Grid>
 
             </VerticalStackLayout>
         </ScrollView>

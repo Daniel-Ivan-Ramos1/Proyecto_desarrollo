@@ -26,14 +26,12 @@ public class ProductosViewModel : BaseViewModel
         VerDetallesCommand = new Command<Producto>(OnVerDetalles);
         RefreshCommand = new Command(async () => await LoadProductosFromApi());
 
-        // ✅ NUEVO: Escuchar mensaje desde SettingsPage para recargar
         MessagingCenter.Subscribe<SettingsPage>(this, "RecargarProductos", async (sender) =>
         {
             await LoadProductosFromApi();
             await DisplayAlert("🔄 Actualizado", "Productos recargados desde Azure SQL", "OK");
         });
 
-        // Cargar productos del API
         _ = LoadProductosFromApi();
     }
 
@@ -47,7 +45,6 @@ public class ProductosViewModel : BaseViewModel
             foreach (var producto in productos)
                 Productos.Add(producto);
 
-            // Mostrar mensaje informativo
             if (productos.Any(p => p.Nombre?.Contains("(Local)") == true))
             {
                 await DisplayAlert("ℹ️ Modo Local",
@@ -64,7 +61,6 @@ public class ProductosViewModel : BaseViewModel
             await DisplayAlert("⚠️ Error de Conexión",
                 $"No se pudo conectar al servidor: {ex.Message}\n\nUsando datos locales.", "OK");
 
-            // Fallback a datos de ejemplo
             CargarProductosEjemplo();
         }
         finally
@@ -108,7 +104,6 @@ public class ProductosViewModel : BaseViewModel
     {
         if (Application.Current?.MainPage != null)
         {
-            // Navegar al formulario de agregar producto
             await Application.Current.MainPage.Navigation.PushAsync(new Views.AddProductoPage());
         }
     }
@@ -117,25 +112,9 @@ public class ProductosViewModel : BaseViewModel
     {
         if (producto == null) return;
 
-        bool confirmar = await DisplayAlertConfirm(
-            "✏️ Editar Producto",
-            $"¿Editar {producto.Nombre}?\n\nPrecio actual: ${producto.Precio:F2}\nStock actual: {producto.Stock}",
-            "✅ Sí, editar",
-            "❌ Cancelar");
-
-        if (confirmar)
+        if (Application.Current?.MainPage != null)
         {
-            // Aquí normalmente abrirías un formulario de edición
-            var resultado = await _apiService.UpdateProductoAsync(producto);
-            if (resultado)
-            {
-                await DisplayAlert("✅ Éxito", "Producto actualizado en el servidor", "OK");
-                await LoadProductosFromApi(); // Recargar datos
-            }
-            else
-            {
-                await DisplayAlert("⚠️ Modo Local", "Cambios guardados localmente", "OK");
-            }
+            await Application.Current.MainPage.Navigation.PushAsync(new EditProductoPage(producto));
         }
     }
 
@@ -145,24 +124,30 @@ public class ProductosViewModel : BaseViewModel
 
         bool confirmar = await DisplayAlertConfirm(
             "🗑️ Eliminar Producto",
-            $"¿Estás seguro de eliminar:\n\n{producto.Nombre}?",
+            $"¿Estás seguro de eliminar permanentemente:\n\n" +
+            $"**{producto.Nombre}**\n\n" +
+            $"💰 Precio: ${producto.Precio:F2}\n" +
+            $"📦 Stock: {producto.Stock} unidades",
             "✅ Sí, eliminar",
             "❌ Cancelar");
 
         if (confirmar)
         {
-            // Intentar eliminar del API primero
+            var productoEliminado = producto;
+
+            Productos.Remove(producto);
+
             var resultado = await _apiService.DeleteProductoAsync(producto.Id);
+
             if (resultado)
             {
-                Productos.Remove(producto);
-                await DisplayAlert("✅ Éxito", "Producto eliminado del servidor", "OK");
+                await DisplayAlert("✅ Éxito",
+                    $"Producto eliminado del servidor:\n{productoEliminado.Nombre}", "OK");
             }
             else
             {
-                // Fallback: eliminar localmente
-                Productos.Remove(producto);
-                await DisplayAlert("⚠️ Modo Local", "Producto eliminado localmente", "OK");
+                await DisplayAlert("⚠️ Modo Local",
+                    $"Producto eliminado localmente:\n{productoEliminado.Nombre}", "OK");
             }
         }
     }
@@ -186,7 +171,6 @@ public class ProductosViewModel : BaseViewModel
             "✅ Aceptar");
     }
 
-    // Método helper para mostrar alerts normales
     private async Task DisplayAlert(string title, string message, string cancel)
     {
         if (Application.Current?.MainPage != null)
@@ -195,7 +179,6 @@ public class ProductosViewModel : BaseViewModel
         }
     }
 
-    // Método helper para mostrar alerts con confirmación (2 botones)
     private async Task<bool> DisplayAlertConfirm(string title, string message, string accept, string cancel)
     {
         if (Application.Current?.MainPage != null)

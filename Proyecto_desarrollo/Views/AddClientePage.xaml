@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.AddClientePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="➕ Agregar Cliente"
+             BackgroundColor="{DynamicResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <Label Text="Agregar Nuevo Cliente" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{DynamicResource TextColor}"/>
+
+            <Frame Style="{DynamicResource CardFrame}">
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="Nombre Completo:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Entry x:Name="NombreEntry" 
+                           Placeholder="Ej: Juan Pérez"
+                           BackgroundColor="{DynamicResource CardColor}"
+                           TextColor="{DynamicResource TextColor}"/>
+
+                    <Label Text="Email:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Entry x:Name="EmailEntry" 
+                           Placeholder="ejemplo@email.com" 
+                           Keyboard="Email"
+                           BackgroundColor="{DynamicResource CardColor}"
+                           TextColor="{DynamicResource TextColor}"/>
+
+                    <Label Text="Teléfono:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Entry x:Name="TelefonoEntry" 
+                           Placeholder="555-1234" 
+                           Keyboard="Telephone"
+                           BackgroundColor="{DynamicResource CardColor}"
+                           TextColor="{DynamicResource TextColor}"/>
+
+                    <Label Text="Dirección:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Editor x:Name="DireccionEditor" 
+                           HeightRequest="60" 
+                           Placeholder="Dirección completa..."
+                           BackgroundColor="{DynamicResource CardColor}"
+                           TextColor="{DynamicResource TextColor}"/>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="❌ Cancelar" 
+                        BackgroundColor="#FF6B6B"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Clicked="OnCancelarClicked"/>
+
+                <Button Text="✅ Guardar" 
+                        Style="{DynamicResource PrimaryButton}"
+                        Grid.Column="1"
+                        Clicked="OnGuardarClicked"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

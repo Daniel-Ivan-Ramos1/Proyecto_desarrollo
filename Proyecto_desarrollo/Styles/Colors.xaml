@@ -2,7 +2,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Tema Azul (Tech) -->
     <Color x:Key="PrimaryColorAzul">#2E86AB</Color>
     <Color x:Key="SecondaryColorAzul">#A23B72</Color>
     <Color x:Key="AccentColorAzul">#F18F01</Color>
@@ -10,7 +9,6 @@
     <Color x:Key="CardColorAzul">#FFFFFF</Color>
     <Color x:Key="TextColorAzul">#212529</Color>
 
-    <!-- Tema Oscuro -->
     <Color x:Key="PrimaryColorOscuro">#BB86FC</Color>
     <Color x:Key="SecondaryColorOscuro">#03DAC6</Color>
     <Color x:Key="AccentColorOscuro">#CF6679</Color>
@@ -18,7 +16,6 @@
     <Color x:Key="CardColorOscuro">#1E1E1E</Color>
     <Color x:Key="TextColorOscuro">#FFFFFF</Color>
 
-    <!-- Colores actuales (por defecto - Tema Azul) -->
     <Color x:Key="PrimaryColor">#2E86AB</Color>
     <Color x:Key="SecondaryColor">#A23B72</Color>
     <Color x:Key="AccentColor">#F18F01</Color>

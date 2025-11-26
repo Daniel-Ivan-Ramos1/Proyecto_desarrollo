@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.EditPedidoPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="✏️ Editar Pedido"
+             BackgroundColor="{DynamicResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <Label Text="Editar Pedido" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{DynamicResource TextColor}"/>
+
+            <Frame Style="{DynamicResource CardFrame}">
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="Cliente:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Picker x:Name="ClientePicker"
+                            Title="Selecciona un cliente"
+                            ItemDisplayBinding="{Binding Nombre}"
+                            BackgroundColor="{DynamicResource CardColor}"/>
+
+                    <Label Text="Producto:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Picker x:Name="ProductoPicker"
+                            Title="Selecciona un producto"
+                            ItemDisplayBinding="{Binding Nombre}"
+                            BackgroundColor="{DynamicResource CardColor}"
+                            SelectedIndexChanged="OnProductoSeleccionado"/>
+
+                    <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Cantidad:" 
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource TextColor}"/>
+                            <Entry x:Name="CantidadEntry" 
+                                   Placeholder="Ej: 2"
+                                   Keyboard="Numeric"
+                                   TextChanged="OnCantidadCambiada"
+                                   BackgroundColor="{DynamicResource CardColor}"
+                                   TextColor="{DynamicResource TextColor}"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Precio Unitario:" 
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource TextColor}"/>
+                            <Label x:Name="PrecioUnitarioLabel" 
+                                   Text="$0.00"
+                                   FontSize="14"
+                                   TextColor="Green"
+                                   VerticalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="Total:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Entry x:Name="TotalEntry" 
+                           Placeholder="0.00"
+                           Keyboard="Numeric"
+                           IsEnabled="False"
+                           BackgroundColor="{DynamicResource CardColor}"
+                           TextColor="{DynamicResource TextColor}"/>
+
+                    <Label Text="Estado:" 
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource TextColor}"/>
+                    <Picker x:Name="EstadoPicker"
+                            BackgroundColor="{DynamicResource CardColor}">
+                        <Picker.Items>
+                            <x:String>Pendiente</x:String>
+                            <x:String>Procesando</x:String>
+                            <x:String>Enviado</x:String>
+                            <x:String>Completado</x:String>
+                            <x:String>Cancelado</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button x:Name="CancelarButton"
+                        Text="❌ Cancelar" 
+                        BackgroundColor="#FF6B6B"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Clicked="OnCancelarClicked"/>
+
+                <Button x:Name="GuardarButton"
+                        Text="💾 Guardar Cambios" 
+                        Style="{DynamicResource PrimaryButton}"
+                        Grid.Column="1"
+                        Clicked="OnGuardarCambiosClicked"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

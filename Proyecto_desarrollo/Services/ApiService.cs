@@ -7,7 +7,7 @@ namespace Proyecto_desarrollo.Services;
 public class ApiService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiBaseUrl = "https://localhost:7125/api"; // URL de tu API local
+    private readonly string _apiBaseUrl = "https://localhost:7125/api";
 
     private readonly JsonSerializerOptions _jsonOptions = new()
     {
@@ -18,12 +18,9 @@ public class ApiService
     public ApiService()
     {
         _httpClient = new HttpClient();
-
-        // Configurar timeout
         _httpClient.Timeout = TimeSpan.FromSeconds(30);
     }
 
-    // PRODUCTOS
     public async Task<List<Producto>> GetProductosAsync()
     {
         try
@@ -35,7 +32,6 @@ public class ApiService
         catch (Exception ex)
         {
             Console.WriteLine($"❌ Error al obtener productos: {ex.Message}");
-            // Fallback a datos de ejemplo si no hay conexión
             return GetProductosEjemplo();
         }
     }
@@ -94,7 +90,6 @@ public class ApiService
         }
     }
 
-    // CLIENTES
     public async Task<List<Cliente>> GetClientesAsync()
     {
         try
@@ -133,7 +128,123 @@ public class ApiService
         }
     }
 
-    // Datos de ejemplo para desarrollo (fallback)
+    public async Task<bool> UpdateClienteAsync(Cliente cliente)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(cliente, _jsonOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/clientes/{cliente.Id}", content);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error al actualizar cliente: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteClienteAsync(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/clientes/{id}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error al eliminar cliente: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<List<Pedido>> GetPedidosAsync()
+    {
+        try
+        {
+            var response = await _httpClient.GetStringAsync($"{_apiBaseUrl}/pedidos");
+            var pedidos = JsonSerializer.Deserialize<List<Pedido>>(response, _jsonOptions);
+            return pedidos ?? new List<Pedido>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error al obtener pedidos: {ex.Message}");
+            return GetPedidosEjemplo();
+        }
+    }
+
+    public async Task<Pedido> AddPedidoAsync(Pedido pedido)
+    {
+        try
+        {
+            Console.WriteLine($"🌐 ENVIANDO PEDIDO A: {_apiBaseUrl}/pedidos");
+            Console.WriteLine($"📦 DATOS: ClienteId={pedido.ClienteId}, ProductoId={pedido.ProductoId}, Cantidad={pedido.Cantidad}, Total={pedido.Total}");
+
+            var json = JsonSerializer.Serialize(pedido, _jsonOptions);
+            Console.WriteLine($"📋 JSON: {json}");
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_apiBaseUrl}/pedidos", content);
+
+            Console.WriteLine($"📡 RESPUESTA HTTP: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"✅ PEDIDO CREADO: {responseContent}");
+                return JsonSerializer.Deserialize<Pedido>(responseContent, _jsonOptions);
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"❌ ERROR SERVIDOR - Status: {response.StatusCode}, Mensaje: {errorContent}");
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"💥 ERROR CONEXIÓN: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"💥 DETALLES: {ex.InnerException.Message}");
+            }
+            return null;
+        }
+    }
+
+    public async Task<bool> UpdatePedidoAsync(Pedido pedido)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(pedido, _jsonOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"{_apiBaseUrl}/pedidos/{pedido.Id}", content);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error al actualizar pedido: {ex.Message}");
+            return false;
+        }
+    }
+
+    public async Task<bool> DeletePedidoAsync(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"{_apiBaseUrl}/pedidos/{id}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Error al eliminar pedido: {ex.Message}");
+            return false;
+        }
+    }
+
     private List<Producto> GetProductosEjemplo()
     {
         return new List<Producto>
@@ -164,6 +275,33 @@ public class ApiService
                 Email = "local@email.com",
                 Telefono = "555-0000",
                 Direccion = "Dirección local"
+            }
+        };
+    }
+
+    private List<Pedido> GetPedidosEjemplo()
+    {
+        return new List<Pedido>
+        {
+            new Pedido
+            {
+                Id = 1,
+                ClienteId = 1,
+                ProductoId = 1,
+                Cantidad = 1,
+                Total = 1299.99m,
+                FechaPedido = DateTime.Now.AddDays(-5),
+                Estado = "Completado (Local)"
+            },
+            new Pedido
+            {
+                Id = 2,
+                ClienteId = 1,
+                ProductoId = 2,
+                Cantidad = 2,
+                Total = 1799.98m,
+                FechaPedido = DateTime.Now.AddDays(-2),
+                Estado = "Pendiente (Local)"
             }
         };
     }

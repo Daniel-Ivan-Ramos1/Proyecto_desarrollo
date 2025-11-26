@@ -3,7 +3,8 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:Proyecto_desarrollo.ViewModels"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource BackgroundColor}">
 
     <ContentPage.BindingContext>
         <viewmodels:PedidosViewModel />
@@ -13,43 +14,117 @@
         <ScrollView>
             <VerticalStackLayout Spacing="20" Padding="20">
 
-                <Label Text="Gestión de Pedidos" 
+                <Label Text="📦 Gestión de Pedidos" 
                        FontSize="24" 
                        FontAttributes="Bold"
-                       HorizontalOptions="Center"/>
+                       HorizontalOptions="Center"
+                       TextColor="{DynamicResource TextColor}"/>
 
                 <CollectionView ItemsSource="{Binding Pedidos}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BackgroundColor="#F0F8FF" 
-                                   Padding="15" 
-                                   CornerRadius="10"
+                            <Frame Style="{DynamicResource CardFrame}"
                                    Margin="0,0,0,10">
-                                <VerticalStackLayout Spacing="8">
-                                    <Label Text="{Binding Id, StringFormat='Pedido #{0}'}" 
-                                           FontAttributes="Bold" 
-                                           FontSize="16"/>
+                                <VerticalStackLayout Spacing="12">
                                     <Grid ColumnDefinitions="*,*">
-                                        <Label Text="{Binding Total, StringFormat='Total: ${0:F2}'}" 
-                                               TextColor="Green" 
-                                               FontAttributes="Bold"/>
+                                        <Label Text="{Binding Id, StringFormat='Pedido #{0}'}" 
+                                               FontAttributes="Bold" 
+                                               FontSize="16"
+                                               TextColor="{DynamicResource TextColor}"/>
                                         <Label Grid.Column="1" 
                                                Text="{Binding Estado}" 
-                                               HorizontalOptions="End"/>
+                                               HorizontalOptions="End"
+                                               FontAttributes="Bold"
+                                               TextColor="{Binding Estado, Converter={StaticResource EstadoColorConverter}}"/>
                                     </Grid>
-                                    <Label Text="{Binding FechaPedido, StringFormat='Fecha: {0:dd/MM/yyyy}'}" 
-                                           FontSize="12"/>
+
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding FechaPedido, StringFormat='Fecha: {0:dd/MM/yyyy}'}" 
+                                               FontSize="14"
+                                               TextColor="{DynamicResource TextColor}"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding Total, StringFormat='Total: ${0:F2}'}" 
+                                               HorizontalOptions="End"
+                                               FontAttributes="Bold"
+                                               TextColor="Green"/>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding ClienteId, StringFormat='Cliente ID: {0}'}" 
+                                               FontSize="12"
+                                               TextColor="{DynamicResource TextColor}"/>
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding ProductoId, StringFormat='Producto ID: {0}'}" 
+                                               HorizontalOptions="End"
+                                               FontSize="12"
+                                               TextColor="{DynamicResource TextColor}"/>
+                                    </Grid>
+
+                                    <Label Text="{Binding Cantidad, StringFormat='Cantidad: {0} unidades'}" 
+                                           FontSize="12"
+                                           TextColor="{DynamicResource TextColor}"/>
+
+                                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                                        <Button Text="🔍 Ver" 
+                                                Style="{DynamicResource PrimaryButton}"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PedidosViewModel}}, Path=VerDetallesCommand}"
+                                                CommandParameter="{Binding .}"/>
+
+                                        <Button Text="✏️ Editar" 
+                                                BackgroundColor="{DynamicResource SecondaryColor}"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Grid.Column="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PedidosViewModel}}, Path=EditarPedidoCommand}"
+                                                CommandParameter="{Binding .}"/>
+
+                                        <Button Text="🗑️ Eliminar" 
+                                                BackgroundColor="#FF6B6B"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                FontSize="12"
+                                                Padding="10,8"
+                                                Grid.Column="2"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PedidosViewModel}}, Path=EliminarPedidoCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
                                 </VerticalStackLayout>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Text="➕ Nuevo Pedido" 
-                        BackgroundColor="#2E86AB"
-                        TextColor="White"
-                        CornerRadius="10"
+                <Button x:Name="AgregarButton"
+                        Text="➕ Crear Nuevo Pedido" 
+                        Style="{DynamicResource PrimaryButton}"
                         Command="{Binding AgregarPedidoCommand}"/>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Button x:Name="ProductosButton"
+                            Text="💻 Productos" 
+                            BackgroundColor="{DynamicResource SecondaryColor}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Clicked="OnProductosClicked"/>
+
+                    <Button x:Name="ClientesButton"
+                            Text="👥 Clientes" 
+                            BackgroundColor="{DynamicResource AccentColor}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Grid.Column="1"
+                            Clicked="OnClientesClicked"/>
+
+                    <Button x:Name="SettingsButton"
+                            Text="⚙️ Ajustes" 
+                            Style="{DynamicResource PrimaryButton}"
+                            Grid.Column="2"
+                            Clicked="OnSettingsClicked"/>
+                </Grid>
 
             </VerticalStackLayout>
         </ScrollView>

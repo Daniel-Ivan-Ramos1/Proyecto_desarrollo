@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechStore.API.Data;
+using TechStore.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configurar Entity Framework con Azure SQL
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"🔗 Conectando a Azure SQL: {connectionString}");
 
-// Configurar CORS para permitir requests desde MAUI
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowMAUI", policy =>
@@ -25,7 +26,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -37,19 +37,71 @@ app.UseCors("AllowMAUI");
 app.UseAuthorization();
 app.MapControllers();
 
-// Crear y sembrar la base de datos automáticamente en Azure SQL
 using (var scope = app.Services.CreateScope())
 {
     try
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        dbContext.Database.EnsureCreated(); // Crea las tablas si no existen
-        Console.WriteLine("✅ Base de datos Azure SQL configurada correctamente");
+
+        Console.WriteLine("🚀 Configurando base de datos Azure SQL...");
+
+        var created = await dbContext.Database.EnsureCreatedAsync();
+        Console.WriteLine($"✅ Base de datos creada: {created}");
+
+        var productosCount = await dbContext.Productos.CountAsync();
+        var clientesCount = await dbContext.Clientes.CountAsync();
+        var pedidosCount = await dbContext.Pedidos.CountAsync();
+
+        Console.WriteLine($"📊 Productos en BD: {productosCount}");
+        Console.WriteLine($"👥 Clientes en BD: {clientesCount}");
+        Console.WriteLine($"📦 Pedidos en BD: {pedidosCount}");
+
+        if (pedidosCount == 0 && productosCount > 0 && clientesCount > 0)
+        {
+            Console.WriteLine("🌱 Insertando pedidos de ejemplo...");
+
+            var producto1 = await dbContext.Productos.FindAsync(1);
+            var producto2 = await dbContext.Productos.FindAsync(2);
+            var cliente1 = await dbContext.Clientes.FindAsync(1);
+            var cliente2 = await dbContext.Clientes.FindAsync(2);
+
+            if (producto1 != null && cliente1 != null)
+            {
+                dbContext.Pedidos.AddRange(
+                    new Pedido
+                    {
+                        ClienteId = cliente1.Id,
+                        ProductoId = producto1.Id,
+                        Cantidad = 1,
+                        Total = producto1.Precio * 1,
+                        Estado = "Completado",
+                        FechaPedido = DateTime.UtcNow.AddDays(-2)
+                    },
+                    new Pedido
+                    {
+                        ClienteId = cliente2.Id,
+                        ProductoId = producto2.Id,
+                        Cantidad = 2,
+                        Total = producto2.Precio * 2,
+                        Estado = "Pendiente",
+                        FechaPedido = DateTime.UtcNow.AddDays(-1)
+                    }
+                );
+
+                await dbContext.SaveChangesAsync();
+                Console.WriteLine("✅ Pedidos de ejemplo insertados");
+            }
+        }
+
+        Console.WriteLine("🎯 API lista para recibir requests");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"❌ Error al conectar con Azure SQL: {ex.Message}");
-        throw;
+        Console.WriteLine($"❌ Error al configurar la BD: {ex.Message}");
+        if (ex.InnerException != null)
+        {
+            Console.WriteLine($"❌ Detalles: {ex.InnerException.Message}");
+        }
     }
 }
 

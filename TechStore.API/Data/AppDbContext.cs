@@ -13,7 +13,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configurar datos iniciales (seed data)
         modelBuilder.Entity<Producto>().HasData(
             new Producto
             {

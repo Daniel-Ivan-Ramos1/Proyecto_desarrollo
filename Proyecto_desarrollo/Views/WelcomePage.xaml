@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Proyecto_desarrollo.Views.WelcomePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="🏠 Inicio"
+             BackgroundColor="{DynamicResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20">
+
+            <Label Text="Bienvenido a TechStore" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{DynamicResource PrimaryColor}"/>
+
+            <Label Text="Tu tienda especializada en computadoras y tecnología" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="{DynamicResource TextColor}"/>
+
+            <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" 
+                  RowSpacing="15" ColumnSpacing="15" 
+                  VerticalOptions="Center" HeightRequest="400">
+
+                <Frame Style="{DynamicResource CardFrame}" Grid.Row="0" Grid.Column="0">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="💻" FontSize="40" HorizontalOptions="Center"/>
+                        <Label Text="Productos" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextColor}"/>
+                        <Button Text="Ver" 
+                                Style="{DynamicResource PrimaryButton}"
+                                Clicked="OnProductosClicked"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Style="{DynamicResource CardFrame}" Grid.Row="0" Grid.Column="1">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="👥" FontSize="40" HorizontalOptions="Center"/>
+                        <Label Text="Clientes" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextColor}"/>
+                        <Button Text="Ver" 
+                                Style="{DynamicResource PrimaryButton}"
+                                Clicked="OnClientesClicked"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Style="{DynamicResource CardFrame}" Grid.Row="1" Grid.Column="0">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="📦" FontSize="40" HorizontalOptions="Center"/>
+                        <Label Text="Pedidos" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextColor}"/>
+                        <Button Text="Ver" 
+                                Style="{DynamicResource PrimaryButton}"
+                                Clicked="OnPedidosClicked"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Style="{DynamicResource CardFrame}" Grid.Row="1" Grid.Column="1">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Label Text="⚙️" FontSize="40" HorizontalOptions="Center"/>
+                        <Label Text="Ajustes" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource TextColor}"/>
+                        <Button Text="Ver" 
+                                Style="{DynamicResource PrimaryButton}"
+                                Clicked="OnSettingsClicked"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
