@@ -24,7 +24,7 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Mensaje simple -->
+            <!-- Contenido simple -->
             <Frame BackgroundColor="#F0F8FF" Padding="20" CornerRadius="10">
                 <Label Text="Bienvenido a tu aplicación MAUI" 
                        FontSize="18" 
