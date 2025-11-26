@@ -1,15 +1,12 @@
-﻿namespace Proyecto_desarrollo
-{
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-        }
+﻿namespace Proyecto_desarrollo;
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+public partial class App : Application
+{
+    public App()
+    {
+        InitializeComponent();
+
+        // Usar NavigationPage para habilitar la navegación
+        MainPage = new NavigationPage(new Views.ProductosPage());
     }
 }

@@ -21,12 +21,14 @@
                         <Button Text="🔵 Tema Azul (Tech)" 
                                 BackgroundColor="#2E86AB"
                                 TextColor="White"
-                                CornerRadius="10"/>
+                                CornerRadius="10"
+                                Clicked="OnTemaAzulClicked"/>
 
                         <Button Text="🌙 Tema Oscuro" 
                                 BackgroundColor="#333333"
                                 TextColor="White"
-                                CornerRadius="10"/>
+                                CornerRadius="10"
+                                Clicked="OnTemaOscuroClicked"/>
                     </VerticalStackLayout>
                 </Frame>
 
@@ -37,8 +39,16 @@
                         <Label Text="🖥️ TechStore v1.0"/>
                         <Label Text="Tu tienda especializada en computadoras"/>
                         <Label Text="Desarrollado con .NET MAUI"/>
+                        <Label Text="✅ Proyecto funcionando correctamente"/>
                     </VerticalStackLayout>
                 </Frame>
+
+                <!-- Botón de acción -->
+                <Button Text="🔄 Recargar Datos" 
+                        BackgroundColor="#F18F01"
+                        TextColor="White"
+                        CornerRadius="10"
+                        Clicked="OnRecargarDatosClicked"/>
 
             </VerticalStackLayout>
         </ScrollView>

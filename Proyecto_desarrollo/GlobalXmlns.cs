@@ -1,2 +1,3 @@
-[assembly: XmlnsDefinition("http://schemas.microsoft.com/dotnet/maui/global", "Proyecto_desarrollo")]
-[assembly: XmlnsDefinition("http://schemas.microsoft.com/dotnet/maui/global", "Proyecto_desarrollo.Pages")]
+global using Microsoft.Maui;
+global using Microsoft.Maui.Controls;
+global using Microsoft.Maui.Controls.Xaml;

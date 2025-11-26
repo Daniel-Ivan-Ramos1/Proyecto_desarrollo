@@ -19,34 +19,54 @@
                        FontAttributes="Bold"
                        HorizontalOptions="Center"/>
 
-                <!-- Lista de productos con Data Binding -->
+                <!-- Lista de productos con Data Binding y Swipe Gestures -->
                 <CollectionView ItemsSource="{Binding Productos}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame BackgroundColor="#F0F8FF" 
-                                   Padding="15" 
-                                   CornerRadius="10"
-                                   Margin="0,0,0,10">
-                                <VerticalStackLayout Spacing="8">
-                                    <Label Text="{Binding Nombre}" 
-                                           FontAttributes="Bold" 
-                                           FontSize="16"/>
-                                    <Label Text="{Binding Descripcion}" 
-                                           FontSize="14"/>
-                                    <Grid ColumnDefinitions="*,*">
-                                        <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}" 
-                                               TextColor="Green" 
-                                               FontAttributes="Bold"/>
-                                        <Label Grid.Column="1" 
-                                               Text="{Binding Stock, StringFormat='Stock: {0}'}" 
-                                               HorizontalOptions="End"/>
-                                    </Grid>
-                                    <Button Text="Ver Detalles" 
-                                            BackgroundColor="#2E86AB"
-                                            TextColor="White"
-                                            CornerRadius="5"/>
-                                </VerticalStackLayout>
-                            </Frame>
+                            <SwipeView>
+                                <!-- Swipe izquierda para editar -->
+                                <SwipeView.LeftItems>
+                                    <SwipeItem Text="✏️ Editar" 
+                                              BackgroundColor="#2E86AB"
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=EditarProductoCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                </SwipeView.LeftItems>
+
+                                <!-- Swipe derecha para eliminar -->
+                                <SwipeView.RightItems>
+                                    <SwipeItem Text="🗑️ Eliminar" 
+                                              BackgroundColor="#FF6B6B"
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=EliminarProductoCommand}"
+                                              CommandParameter="{Binding .}"/>
+                                </SwipeView.RightItems>
+
+                                <Frame BackgroundColor="#F0F8FF" 
+                                       Padding="15" 
+                                       CornerRadius="10"
+                                       Margin="0,0,0,10">
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label Text="{Binding Nombre}" 
+                                               FontAttributes="Bold" 
+                                               FontSize="16"/>
+                                        <Label Text="{Binding Descripcion}" 
+                                               FontSize="14"/>
+                                        <Grid ColumnDefinitions="*,*">
+                                            <Label Text="{Binding Precio, StringFormat='Precio: ${0:F2}'}" 
+                                                   TextColor="Green" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Grid.Column="1" 
+                                                   Text="{Binding Stock, StringFormat='Stock: {0}'}" 
+                                                   HorizontalOptions="End"/>
+                                        </Grid>
+                                        <Button Text="🔍 Ver Detalles" 
+                                                BackgroundColor="#2E86AB"
+                                                TextColor="White"
+                                                CornerRadius="5"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductosViewModel}}, Path=VerDetallesCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </SwipeView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -56,6 +76,29 @@
                         TextColor="White"
                         CornerRadius="10"
                         Command="{Binding AgregarProductoCommand}"/>
+
+                <!-- Navegación a otras páginas -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Button Text="👥 Clientes" 
+                            BackgroundColor="#A23B72"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Clicked="OnClientesClicked"/>
+
+                    <Button Text="📦 Pedidos" 
+                            BackgroundColor="#F18F01"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Grid.Column="1"
+                            Clicked="OnPedidosClicked"/>
+
+                    <Button Text="⚙️ Ajustes" 
+                            BackgroundColor="#2E86AB"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Grid.Column="2"
+                            Clicked="OnSettingsClicked"/>
+                </Grid>
 
             </VerticalStackLayout>
         </ScrollView>
