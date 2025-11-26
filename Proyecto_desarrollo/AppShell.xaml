@@ -23,7 +23,7 @@
 
     <!-- Opciones del menú de navegación -->
     <FlyoutItem Title="🏠 Inicio" Icon="home.png">
-        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}" />
+        <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
     </FlyoutItem>
 
     <FlyoutItem Title="💻 Productos" Icon="laptop.png">

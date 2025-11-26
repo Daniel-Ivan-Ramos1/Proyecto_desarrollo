@@ -6,21 +6,21 @@ namespace Proyecto_desarrollo.ViewModels;
 
 public class ProductosViewModel : BaseViewModel
 {
-    private readonly ObservableCollection<Producto> _productos;
-
-    public ObservableCollection<Producto> Productos { get; }
-
+    public ObservableCollection<Producto> Productos { get; } = new();
     public ICommand AgregarProductoCommand { get; }
     public ICommand EditarProductoCommand { get; }
     public ICommand EliminarProductoCommand { get; }
+    public ICommand VerDetallesCommand { get; }
 
     public ProductosViewModel()
     {
         Title = "💻 Productos";
-        Productos = new ObservableCollection<Producto>();
-        AgregarProductoCommand = new Command(OnAgregarProducto);
 
-        // Datos de ejemplo
+        AgregarProductoCommand = new Command(OnAgregarProducto);
+        EditarProductoCommand = new Command<Producto>(OnEditarProducto);
+        EliminarProductoCommand = new Command<Producto>(OnEliminarProducto);
+        VerDetallesCommand = new Command<Producto>(OnVerDetalles);
+
         CargarProductosEjemplo();
     }
 
@@ -57,6 +57,52 @@ public class ProductosViewModel : BaseViewModel
 
     private async void OnAgregarProducto()
     {
-        await Application.Current.MainPage.DisplayAlert("MVVM", "Agregar producto con MVVM", "OK");
+        if (Application.Current?.Windows[0].Page != null)
+        {
+            await Application.Current.Windows[0].Page.DisplayAlert("MVVM", "Agregar producto con MVVM", "OK");
+        }
+    }
+
+    private async void OnEditarProducto(Producto? producto)
+    {
+        if (producto == null) return;
+
+        if (Application.Current?.Windows[0].Page != null)
+        {
+            await Application.Current.Windows[0].Page.DisplayAlert("Editar",
+                $"Editarás: {producto.Nombre}", "OK");
+        }
+    }
+
+    private async void OnEliminarProducto(Producto? producto)
+    {
+        if (producto == null) return;
+
+        if (Application.Current?.Windows[0].Page != null)
+        {
+            bool confirmar = await Application.Current.Windows[0].Page.DisplayAlert(
+                "Eliminar Producto",
+                $"¿Estás seguro de eliminar {producto.Nombre}?",
+                "Sí, eliminar", "Cancelar");
+
+            if (confirmar)
+            {
+                Productos.Remove(producto);
+                await Application.Current.Windows[0].Page.DisplayAlert("Éxito",
+                    "Producto eliminado", "OK");
+            }
+        }
+    }
+
+    private async void OnVerDetalles(Producto? producto)
+    {
+        if (producto == null) return;
+
+        if (Application.Current?.Windows[0].Page != null)
+        {
+            await Application.Current.Windows[0].Page.DisplayAlert("Detalles",
+                $"{producto.Nombre}\n\n{producto.Descripcion}\n\nPrecio: ${producto.Precio:F2}\nStock: {producto.Stock}",
+                "Cerrar");
+        }
     }
 }

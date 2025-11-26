@@ -7,7 +7,6 @@
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="30">
 
-            <!-- Banner de bienvenida -->
             <Frame BackgroundColor="#2E86AB" 
                    Padding="20" 
                    CornerRadius="15">
@@ -17,16 +16,15 @@
                            TextColor="White" 
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Label Text="Tu tienda especializada en computadoras" 
+                    <Label Text="Tu tienda de computadoras" 
                            FontSize="16" 
                            TextColor="White"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Contenido simple -->
             <Frame BackgroundColor="#F0F8FF" Padding="20" CornerRadius="10">
-                <Label Text="Bienvenido a tu aplicación MAUI" 
+                <Label Text="Bienvenido a la aplicación MAUI" 
                        FontSize="18" 
                        HorizontalOptions="Center"
                        TextColor="#2E86AB"/>

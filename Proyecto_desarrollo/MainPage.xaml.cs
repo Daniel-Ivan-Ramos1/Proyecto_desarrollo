@@ -1,4 +1,4 @@
-namespace Proyecto_desarrollo.Views;
+namespace Proyecto_desarrollo;
 
 public partial class MainPage : ContentPage
 {
