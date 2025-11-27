@@ -7,8 +7,7 @@ namespace Proyecto_desarrollo.Services;
 public class ApiService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiBaseUrl = "https://localhost:7125/api";
-
+    private readonly string _apiBaseUrl = "http://192.168.0.2:5259/api";
     private readonly JsonSerializerOptions _jsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

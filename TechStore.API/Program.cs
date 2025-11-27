@@ -1,108 +1,53 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechStore.API.Data;
-using TechStore.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine($"🔗 Conectando a Azure SQL: {connectionString}");
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
+// Add CORS - PERMITE TODOS LOS ORIGENES
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowMAUI", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
         policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
+// 🔥 CONFIGURACIÓN CRÍTICA: Escuchar en TODAS las interfaces
+app.Urls.Clear();
+app.Urls.Add("http://0.0.0.0:5259");   // ← ESTA LÍNEA ES CLAVE
+app.Urls.Add("https://0.0.0.0:7125");  // ← Y ESTA TAMBIÉN
+
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");  // ← USA CORS
 app.UseHttpsRedirection();
-app.UseCors("AllowMAUI");
 app.UseAuthorization();
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    try
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        Console.WriteLine("🚀 Configurando base de datos Azure SQL...");
-
-        var created = await dbContext.Database.EnsureCreatedAsync();
-        Console.WriteLine($"✅ Base de datos creada: {created}");
-
-        var productosCount = await dbContext.Productos.CountAsync();
-        var clientesCount = await dbContext.Clientes.CountAsync();
-        var pedidosCount = await dbContext.Pedidos.CountAsync();
-
-        Console.WriteLine($"📊 Productos en BD: {productosCount}");
-        Console.WriteLine($"👥 Clientes en BD: {clientesCount}");
-        Console.WriteLine($"📦 Pedidos en BD: {pedidosCount}");
-
-        if (pedidosCount == 0 && productosCount > 0 && clientesCount > 0)
-        {
-            Console.WriteLine("🌱 Insertando pedidos de ejemplo...");
-
-            var producto1 = await dbContext.Productos.FindAsync(1);
-            var producto2 = await dbContext.Productos.FindAsync(2);
-            var cliente1 = await dbContext.Clientes.FindAsync(1);
-            var cliente2 = await dbContext.Clientes.FindAsync(2);
-
-            if (producto1 != null && cliente1 != null)
-            {
-                dbContext.Pedidos.AddRange(
-                    new Pedido
-                    {
-                        ClienteId = cliente1.Id,
-                        ProductoId = producto1.Id,
-                        Cantidad = 1,
-                        Total = producto1.Precio * 1,
-                        Estado = "Completado",
-                        FechaPedido = DateTime.UtcNow.AddDays(-2)
-                    },
-                    new Pedido
-                    {
-                        ClienteId = cliente2.Id,
-                        ProductoId = producto2.Id,
-                        Cantidad = 2,
-                        Total = producto2.Precio * 2,
-                        Estado = "Pendiente",
-                        FechaPedido = DateTime.UtcNow.AddDays(-1)
-                    }
-                );
-
-                await dbContext.SaveChangesAsync();
-                Console.WriteLine("✅ Pedidos de ejemplo insertados");
-            }
-        }
-
-        Console.WriteLine("🎯 API lista para recibir requests");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"❌ Error al configurar la BD: {ex.Message}");
-        if (ex.InnerException != null)
-        {
-            Console.WriteLine($"❌ Detalles: {ex.InnerException.Message}");
-        }
-    }
-}
+Console.WriteLine("🌐 API configurada para escuchar en:");
+Console.WriteLine("   http://0.0.0.0:5259");
+Console.WriteLine("   https://0.0.0.0:7125");
+Console.WriteLine("📡 URLs accesibles:");
+Console.WriteLine($"   http://localhost:5259");
+Console.WriteLine($"   http://192.168.0.2:5259");
+Console.WriteLine($"   http://[TU_IP_LOCAL]:5259");
 
 app.Run();
