@@ -1,3 +1,5 @@
+﻿using System.Diagnostics;
+
 namespace Proyecto_desarrollo.Views;
 
 public partial class SplashScreen : ContentPage
@@ -5,13 +7,16 @@ public partial class SplashScreen : ContentPage
     public SplashScreen()
     {
         InitializeComponent();
-        StartApp();
+        Debug.WriteLine("🚀 SplashScreen iniciado");
     }
 
-    private async void StartApp()
+    protected override async void OnAppearing()
     {
-        await Task.Delay(3000);
+        base.OnAppearing();
 
-        Application.Current.MainPage = new NavigationPage(new WelcomePage());
+        await Task.Delay(3000);
+        Debug.WriteLine("🔑 Navegando a LoginPage...");
+        await Navigation.PushAsync(new LoginPage());
+        Navigation.RemovePage(this);
     }
 }
